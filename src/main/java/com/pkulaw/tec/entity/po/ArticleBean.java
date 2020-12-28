@@ -12,7 +12,7 @@ import java.util.Date;
 /**
  * Created by liuhai on 2020/12/28 8:53
  */
-@Document(indexName = "houyi_qikan_article_dev2",shards = 3,replicas = 2)
+@Document(indexName = "houyi_qikan_article_dev",shards = 3,replicas = 2)
 @AllArgsConstructor
 @NoArgsConstructor
 @Data
