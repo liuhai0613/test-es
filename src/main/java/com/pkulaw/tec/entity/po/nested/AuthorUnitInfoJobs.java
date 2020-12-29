@@ -9,17 +9,16 @@ import org.springframework.data.elasticsearch.annotations.MultiField;
 import java.util.List;
 
 /**
- * Created by liuhai on 2020/12/28 13:20
+ * Created by liuhai on 2020/12/29 19:02
  */
 @Data
-public class AuthorInfo {
-
+public class AuthorUnitInfoJobs {
     @Field(type = FieldType.Keyword)
-    private String authorId;
+    private String authorUnitId;
 
     @MultiField(mainField = @Field(type = FieldType.Text,analyzer = "ik_max_word"),
             otherFields = @InnerField(suffix = "keyword", type = FieldType.Keyword))
-    private String authorName;
+    private String authorUnitName;
 
     @Field(type = FieldType.Keyword)
     private List<String> positionsId;

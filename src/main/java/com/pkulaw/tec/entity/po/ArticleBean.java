@@ -257,6 +257,12 @@ public class ArticleBean {
     @MultiField(mainField = @Field(type = FieldType.Text,analyzer = "ik_max_word"),
             otherFields = @InnerField(suffix = "keyword", type = FieldType.Keyword))
     private String NameEName;
+    //上传的作者和单位信息是否匹配
+    @Field(type = FieldType.Integer)
+    private Integer authorMatchedUnit;
+    //作者和单位关系是否建立
+    @Field(type = FieldType.Integer)
+    private Integer buildRelation;
     //作者名称数组
     @Field(type = FieldType.Keyword)
     private String InfoAuthor;

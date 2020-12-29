@@ -20,6 +20,6 @@ public class AuthorAndUnitInfo {
     private String authorName;
 
     @Field(type = FieldType.Nested)
-    AuthorUnitInfo authorUnits;
+    AuthorUnitInfoJobs authorUnits;
 
 }
