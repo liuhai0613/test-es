@@ -257,7 +257,7 @@ public class ArticleBean {
     @MultiField(mainField = @Field(type = FieldType.Text,analyzer = "ik_max_word"),
             otherFields = @InnerField(suffix = "keyword", type = FieldType.Keyword))
     private String NameEName;
-    //上传的作者和单位信息是否匹配
+    //作者和单位信息是否完整
     @Field(type = FieldType.Integer)
     private Integer authorMatchedUnit;
     //作者和单位关系是否建立
@@ -278,10 +278,9 @@ public class ArticleBean {
     @MultiField(mainField = @Field(type = FieldType.Text,analyzer = "ik_max_word"),
             otherFields = @InnerField(suffix = "keyword", type = FieldType.Keyword))
     private String firstAuthorUnitName;
-    //外国作者名称(数组)、自动带过来的
-    @MultiField(mainField = @Field(type = FieldType.Text,analyzer = "ik_max_word"),
-            otherFields = @InnerField(suffix = "keyword", type = FieldType.Keyword))
-    private String foreignAuthor;
+    //外国作者信息，通过国籍自动带过来的
+    @Field(type = FieldType.Nested)
+    private ForeignAuthor foreignAuthor;
     //作者和作者单位信息(有关系的)
     @Field(type = FieldType.Nested)
     private AuthorAndUnitInfo authorAndUnitInfo;
