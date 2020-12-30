@@ -8,6 +8,7 @@ import org.springframework.data.annotation.Id;
 import org.springframework.data.elasticsearch.annotations.*;
 
 import java.util.Date;
+import java.util.List;
 
 /**
  * Created by liuhai on 2020/12/28 8:53
@@ -257,6 +258,7 @@ public class ArticleBean {
     @MultiField(mainField = @Field(type = FieldType.Text,analyzer = "ik_max_word"),
             otherFields = @InnerField(suffix = "keyword", type = FieldType.Keyword))
     private String NameEName;
+    //-------------------------------------------作者相关---------------------------------------------
     //作者和单位信息是否完整
     @Field(type = FieldType.Integer)
     private Integer authorMatchedUnit;
@@ -264,33 +266,30 @@ public class ArticleBean {
     @Field(type = FieldType.Integer)
     private Integer buildRelation;
     //作者名称数组
-    @Field(type = FieldType.Keyword)
-    private String InfoAuthor;
+    @MultiField(mainField = @Field(type = FieldType.Text,analyzer = "ik_max_word"),
+            otherFields = @InnerField(suffix = "keyword", type = FieldType.Keyword))
+    private List<String> InfoAuthor;
     //作者单位名称数组
     @MultiField(mainField = @Field(type = FieldType.Text,analyzer = "ik_max_word"),
             otherFields = @InnerField(suffix = "keyword", type = FieldType.Keyword))
-    private String AuthorUnit;
-    //第一作者名称
-    @MultiField(mainField = @Field(type = FieldType.Text,analyzer = "ik_max_word"),
-            otherFields = @InnerField(suffix = "keyword", type = FieldType.Keyword))
-    private String firstAuthorName;
-    //第一作者单位名称
-    @MultiField(mainField = @Field(type = FieldType.Text,analyzer = "ik_max_word"),
-            otherFields = @InnerField(suffix = "keyword", type = FieldType.Keyword))
-    private String firstAuthorUnitName;
+    private List<String> AuthorUnit;
     //外国作者信息，通过国籍自动带过来的
     @Field(type = FieldType.Nested)
-    private ForeignAuthor foreignAuthor;
+    private List<ForeignAuthor> foreignAuthor;
     //作者和作者单位信息(有关系的)
     @Field(type = FieldType.Nested)
-    private AuthorAndUnitInfo authorAndUnitInfo;
+    private List<AuthorAndUnitInfo> authorAndUnitInfo;
     //作者信息
     @Field(type = FieldType.Nested)
-    private AuthorInfo authorInfo;
+    private List<AuthorInfo> authorInfo;
     //单位信息
     @Field(type = FieldType.Nested)
-    private AuthorUnitInfo authorUnitInfo;
+    private List<AuthorUnitInfoJobs> authorUnitInfo;
+    //----------------------------------------------作者相关--------------------------------------------
     //操作记录
     @Field(type = FieldType.Nested)
-    private OperateRecord operateRecord;
+    private List<OperateRecord> operateRecord;
+    //是否纳入影响因子统计源
+    @Field(type = FieldType.Integer)
+    private Integer statisticsIF;
 }

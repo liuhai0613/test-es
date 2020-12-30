@@ -21,6 +21,4 @@ public class AuthorInfo {
             otherFields = @InnerField(suffix = "keyword", type = FieldType.Keyword))
     private String authorName;
 
-    @Field(type = FieldType.Keyword)
-    private List<String> positionsId;
 }
