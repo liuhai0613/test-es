@@ -259,9 +259,6 @@ public class ArticleBean {
             otherFields = @InnerField(suffix = "keyword", type = FieldType.Keyword))
     private String NameEName;
     //-------------------------------------------作者相关---------------------------------------------
-    //作者和单位信息是否完整
-    @Field(type = FieldType.Integer)
-    private Integer authorMatchedUnit;
     //作者和单位关系是否建立
     @Field(type = FieldType.Integer)
     private Integer buildRelation;
