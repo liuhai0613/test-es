@@ -270,14 +270,21 @@ public class ArticleBean {
     @MultiField(mainField = @Field(type = FieldType.Text,analyzer = "ik_max_word"),
             otherFields = @InnerField(suffix = "keyword", type = FieldType.Keyword))
     private List<String> AuthorUnit;
+    //作者和单位信息（有关系的）
     @Field(type = FieldType.Nested)
     private List<AuthorAndUnitInfo> authorAndUnitInfo;
-    //作者信息
+    //作者信息（没关系的）
     @Field(type = FieldType.Nested)
     private List<AuthorInfo> authorInfo;
-    //单位信息
+    //合并的作者信息
+    @Field(type = FieldType.Nested)
+    private List<AuthorInfo> authorInfoUnion;
+    //单位信息（没关系的）
     @Field(type = FieldType.Nested)
     private List<AuthorUnitInfoJobs> authorUnitInfo;
+    //合并的单位信息
+    @Field(type = FieldType.Nested)
+    private List<AuthorUnitInfoJobs> authorUnitInfoUnion;
     //----------------------------------------------作者相关--------------------------------------------
     //操作记录
     @Field(type = FieldType.Nested)
