@@ -20,5 +20,7 @@ public class AuthorInfo {
     @MultiField(mainField = @Field(type = FieldType.Text,analyzer = "ik_max_word"),
             otherFields = @InnerField(suffix = "keyword", type = FieldType.Keyword))
     private String authorName;
-
+    //是否是外国作者0否1是
+    @Field(type = FieldType.Integer)
+    private String authorOfForeign;
 }

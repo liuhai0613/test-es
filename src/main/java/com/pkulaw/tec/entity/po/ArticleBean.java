@@ -13,7 +13,7 @@ import java.util.List;
 /**
  * Created by liuhai on 2020/12/28 8:53
  */
-@Document(indexName = "houyi_qikan_article_dev",shards = 3,replicas = 2)
+@Document(indexName = "houyi_qikan_article_dev",shards = 3,replicas = 2, type="info")
 @AllArgsConstructor
 @NoArgsConstructor
 @Data
@@ -270,10 +270,6 @@ public class ArticleBean {
     @MultiField(mainField = @Field(type = FieldType.Text,analyzer = "ik_max_word"),
             otherFields = @InnerField(suffix = "keyword", type = FieldType.Keyword))
     private List<String> AuthorUnit;
-    //外国作者信息，通过国籍自动带过来的
-    @Field(type = FieldType.Nested)
-    private List<ForeignAuthor> foreignAuthor;
-    //作者和作者单位信息(有关系的)
     @Field(type = FieldType.Nested)
     private List<AuthorAndUnitInfo> authorAndUnitInfo;
     //作者信息
