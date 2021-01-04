@@ -8,13 +8,15 @@ import org.springframework.data.annotation.Id;
 import org.springframework.data.elasticsearch.annotations.Document;
 import org.springframework.data.elasticsearch.annotations.Field;
 import org.springframework.data.elasticsearch.annotations.FieldType;
+import org.springframework.data.elasticsearch.annotations.Setting;
 
 import java.util.Date;
 
 @Data
-@Document(indexName = "liuh_test4")
+@Document(indexName = "liuh_test7")
 @AllArgsConstructor
 @NoArgsConstructor
+//@Setting(settingPath = "elasticsearch-settings.json")
 public class EsBean {
     @Id
     private Integer id;
