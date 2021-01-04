@@ -16,7 +16,7 @@ import java.util.Date;
 @Document(indexName = "liuh_test7")
 @AllArgsConstructor
 @NoArgsConstructor
-//@Setting(settingPath = "elasticsearch-settings.json")
+@Setting(settingPath = "elasticsearch-settings.json")
 public class EsBean {
     @Id
     private Integer id;
