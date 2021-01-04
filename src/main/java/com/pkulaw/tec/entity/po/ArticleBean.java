@@ -16,6 +16,7 @@ import java.util.List;
 @Document(indexName = "houyi_qikan_article_dev",shards = 3,replicas = 2, type="info")
 @AllArgsConstructor
 @NoArgsConstructor
+@Setting(settingPath = "elasticsearch-settings.json")
 @Data
 public class ArticleBean {
     @Id
