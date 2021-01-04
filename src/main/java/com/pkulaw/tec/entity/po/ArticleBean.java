@@ -269,7 +269,7 @@ public class ArticleBean {
     @MultiField(mainField = @Field(type = FieldType.Text,analyzer = "ik_max_word"),
             otherFields = @InnerField(suffix = "keyword", type = FieldType.Keyword))
     private List<String> uploadAuthorName;
-    //作者单位名称数组
+    //上传的作者和单位信息
     @MultiField(mainField = @Field(type = FieldType.Text,analyzer = "ik_max_word"),
             otherFields = @InnerField(suffix = "keyword", type = FieldType.Keyword))
     private List<String> uploadAuthorUnitName;
