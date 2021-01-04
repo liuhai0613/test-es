@@ -259,7 +259,10 @@ public class ArticleBean {
             otherFields = @InnerField(suffix = "keyword", type = FieldType.Keyword))
     private String NameEName;
     //-------------------------------------------作者相关---------------------------------------------
-    //作者和单位关系是否建立
+    //作者和单位信息是否完整 0否1是
+    @Field(type = FieldType.Integer)
+    private Integer authorMatchedUnit;
+    //作者和单位关系是否建立 0未建立1已建立2部分建立
     @Field(type = FieldType.Integer)
     private Integer buildRelation;
     //作者名称数组
@@ -270,21 +273,9 @@ public class ArticleBean {
     @MultiField(mainField = @Field(type = FieldType.Text,analyzer = "ik_max_word"),
             otherFields = @InnerField(suffix = "keyword", type = FieldType.Keyword))
     private List<String> AuthorUnit;
-    //作者和单位信息（有关系的）
+    //作者和单位信息
     @Field(type = FieldType.Nested)
     private List<AuthorAndUnitInfo> authorAndUnitInfo;
-    //作者信息（没关系的）
-    @Field(type = FieldType.Nested)
-    private List<AuthorInfo> authorInfo;
-    //合并的作者信息
-    @Field(type = FieldType.Nested)
-    private List<AuthorInfo> authorInfoUnion;
-    //单位信息（没关系的）
-    @Field(type = FieldType.Nested)
-    private List<AuthorUnitInfoJobs> authorUnitInfo;
-    //合并的单位信息
-    @Field(type = FieldType.Nested)
-    private List<AuthorUnitInfoJobs> authorUnitInfoUnion;
     //----------------------------------------------作者相关--------------------------------------------
     //操作记录
     @Field(type = FieldType.Nested)

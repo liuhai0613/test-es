@@ -23,6 +23,9 @@ public class AuthorAndUnitInfo {
     //是否是外国作者0否1是
     @Field(type = FieldType.Integer)
     private String authorOfForeign;
+    //作者和单位关系是否建立 0未建立1建立
+    @Field(type = FieldType.Integer)
+    private Integer buildRelation;
 
     @Field(type = FieldType.Nested)
     List<AuthorUnitInfoJobs> authorUnits;

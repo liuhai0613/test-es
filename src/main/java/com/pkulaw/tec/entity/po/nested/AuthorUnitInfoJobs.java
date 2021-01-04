@@ -22,4 +22,7 @@ public class AuthorUnitInfoJobs {
 
     @Field(type = FieldType.Keyword)
     private List<String> positionsId;
+    //作者和单位关系是否建立 0未建立1建立
+    @Field(type = FieldType.Integer)
+    private Integer buildRelation;
 }
