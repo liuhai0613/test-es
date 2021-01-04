@@ -265,10 +265,6 @@ public class ArticleBean {
     //作者和单位关系是否建立 0未建立1已建立2部分建立
     @Field(type = FieldType.Integer)
     private Integer buildRelation;
-    //作者名称数组
-    @MultiField(mainField = @Field(type = FieldType.Text,analyzer = "ik_max_word"),
-            otherFields = @InnerField(suffix = "keyword", type = FieldType.Keyword))
-    private List<String> uploadAuthorName;
     //上传的作者和单位信息
     @MultiField(mainField = @Field(type = FieldType.Text,analyzer = "ik_max_word"),
             otherFields = @InnerField(suffix = "keyword", type = FieldType.Keyword))
