@@ -268,11 +268,11 @@ public class ArticleBean {
     //作者名称数组
     @MultiField(mainField = @Field(type = FieldType.Text,analyzer = "ik_max_word"),
             otherFields = @InnerField(suffix = "keyword", type = FieldType.Keyword))
-    private List<String> InfoAuthor;
+    private List<String> uploadAuthorName;
     //作者单位名称数组
     @MultiField(mainField = @Field(type = FieldType.Text,analyzer = "ik_max_word"),
             otherFields = @InnerField(suffix = "keyword", type = FieldType.Keyword))
-    private List<String> AuthorUnit;
+    private List<String> uploadAuthorUnitName;
     //作者和单位信息
     @Field(type = FieldType.Nested)
     private List<AuthorAndUnitInfo> authorAndUnitInfo;
