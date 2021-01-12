@@ -6,28 +6,15 @@ import org.springframework.data.elasticsearch.annotations.FieldType;
 import org.springframework.data.elasticsearch.annotations.InnerField;
 import org.springframework.data.elasticsearch.annotations.MultiField;
 
-import java.util.List;
-
 /**
- * Created by liuhai on 2020/12/28 13:21
+ * Created by liuhai on 2021/1/12 9:23
  */
 @Data
-public class AuthorAndUnitInfo {
-    //作者id
+public class FirstAuthoUnit {
     @Field(type = FieldType.Keyword)
-    private String authorId;
-    //作者名或曾用名
+    private String authorUnitId;
+
     @MultiField(mainField = @Field(type = FieldType.Text,analyzer = "ik_max_word"),
             otherFields = @InnerField(suffix = "keyword", type = FieldType.Keyword))
-    private String authorName;
-    //是否是外国作者0否1是
-    @Field(type = FieldType.Integer)
-    private String authorOfForeign;
-    //作者和单位关系是否建立 0未建立1建立
-    @Field(type = FieldType.Integer)
-    private Integer buildRelation;
-    //单位信息
-    @Field(type = FieldType.Nested)
-    List<AuthorUnitInfoJobs> authorUnits;
-
+    private String authorUnitName;
 }

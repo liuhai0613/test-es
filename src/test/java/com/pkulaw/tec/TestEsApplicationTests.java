@@ -6,13 +6,24 @@ import com.pkulaw.tec.entity.po.EsBean;
 import com.pkulaw.tec.entity.po.nested.AuthorAndUnitInfo;
 import com.pkulaw.tec.mapper.ArticleMapper;
 import com.pkulaw.tec.mapper.EsMapper;
+import org.apache.lucene.search.TermQuery;
+import org.elasticsearch.action.search.SearchResponse;
 import org.elasticsearch.index.query.QueryBuilders;
 import org.elasticsearch.search.SearchHit;
 import org.elasticsearch.search.SearchHits;
+import org.elasticsearch.search.aggregations.*;
+import org.elasticsearch.search.aggregations.bucket.nested.NestedAggregationBuilder;
+import org.elasticsearch.search.aggregations.bucket.nested.ParsedNested;
+import org.elasticsearch.search.aggregations.bucket.terms.TermsAggregationBuilder;
+import org.elasticsearch.search.aggregations.metrics.sum.SumAggregationBuilder;
+import org.elasticsearch.search.aggregations.pipeline.bucketmetrics.stats.ParsedStatsBucket;
+import org.elasticsearch.search.aggregations.pipeline.bucketmetrics.stats.StatsBucketPipelineAggregationBuilder;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.elasticsearch.core.ElasticsearchRestTemplate;
+import org.springframework.data.elasticsearch.core.ResultsExtractor;
 import org.springframework.data.elasticsearch.core.query.NativeSearchQueryBuilder;
 import org.springframework.data.elasticsearch.core.query.SearchQuery;
 
@@ -29,6 +40,48 @@ class TestEsApplicationTests {
 
     @Autowired
     private ElasticsearchRestTemplate elasticsearchRestTemplate;
+    @Test
+    void queryDocCountNum(){
+        //组装聚合查询条件
+        SearchQuery searchQuery =
+                new NativeSearchQueryBuilder().withIndices("liuh_test3").withQuery(QueryBuilders.termQuery("name","张三"))
+                        .withTypes("esbean")
+                        .withPageable(PageRequest.of(0, 1))
+                        .build();
+        long count = elasticsearchRestTemplate.count(searchQuery);
+        System.out.println(count);
+    }
+    @Test
+    void queryAuthorNum(){
+        //netsed
+        NestedAggregationBuilder nestedAggBuilder = AggregationBuilders.nested("queryAuthorNum",
+                "authorAndUnitInfo");
+        //1层
+        AggregationBuilder userNumberAggBuilder = AggregationBuilders.terms("authorIdAggs")
+                .field("authorAndUnitInfo.authorId").size(1000000);
+        //pipeline
+        StatsBucketPipelineAggregationBuilder pipelineBuilder = new StatsBucketPipelineAggregationBuilder("bucketSum","authorIdAggs._count");
+        //嵌套
+        nestedAggBuilder.subAggregation(pipelineBuilder);
+        nestedAggBuilder.subAggregation(userNumberAggBuilder);
+        //组装聚合查询条件
+        SearchQuery searchQuery =
+                new NativeSearchQueryBuilder().withIndices("houyi_qikan_article_dev")
+                        .withTypes("info")
+                        .withPageable(PageRequest.of(0, 1))
+                        .addAggregation(nestedAggBuilder)
+                        .build();
+        //执行查询
+        Aggregations aggregations = elasticsearchRestTemplate.query(searchQuery, new ResultsExtractor<Aggregations>() {
+            @Override
+            public Aggregations extract(SearchResponse response) {
+                return response.getAggregations();
+            }
+        });
+        ParsedNested parsedNested = (ParsedNested) aggregations.get("queryAuthorNum");
+        ParsedStatsBucket bucketSum = parsedNested.getAggregations().get("bucketSum");
+        System.out.println(bucketSum.getCount());
+    }
 
     @Test
     void saveAll() {
@@ -63,26 +116,20 @@ class TestEsApplicationTests {
     @Test
     void saveArticle() {
         ArticleBean first = new ArticleBean();
-        first.setId(1010l);
+        first.setId(1010101l);
         List<AuthorAndUnitInfo> list1 = new ArrayList<>();
         AuthorAndUnitInfo info1 = new AuthorAndUnitInfo();
         info1.setAuthorId("2001");
-        AuthorAndUnitInfo info2 = new AuthorAndUnitInfo();
-        info2.setAuthorId("2002");
-        AuthorAndUnitInfo info3 = new AuthorAndUnitInfo();
-        info3.setAuthorId("2003");
         list1.add(info1);
-        list1.add(info2);
-        list1.add(info3);
         first.setAuthorAndUnitInfo(list1);
 
         ArticleBean second = new ArticleBean();
-        second.setId(1011l);
+        second.setId(1011102l);
         List<AuthorAndUnitInfo> list2 = new ArrayList<>();
         AuthorAndUnitInfo info11 = new AuthorAndUnitInfo();
         info11.setAuthorId("2001");
         AuthorAndUnitInfo info22 = new AuthorAndUnitInfo();
-        info22.setAuthorId("2004");
+        info22.setAuthorId("2001");
         AuthorAndUnitInfo info33 = new AuthorAndUnitInfo();
         info33.setAuthorId("2005");
         list2.add(info11);
@@ -91,7 +138,7 @@ class TestEsApplicationTests {
         second.setAuthorAndUnitInfo(list2);
 
         ArticleBean third = new ArticleBean();
-        third.setId(1012l);
+        third.setId(1011203l);
         List<AuthorAndUnitInfo> list3 = new ArrayList<>();
         AuthorAndUnitInfo info111 = new AuthorAndUnitInfo();
         info111.setAuthorId("2005");

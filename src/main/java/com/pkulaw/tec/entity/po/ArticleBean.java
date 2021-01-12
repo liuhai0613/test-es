@@ -57,7 +57,7 @@ public class ArticleBean {
     private String Info_Preview;
     //收录时间
     @Field(type = FieldType.Date)
-    private Integer uploadtime;
+    private Integer uploadTime;
     //排序
     @Field(type = FieldType.Integer)
     private Integer sortNum;
@@ -251,6 +251,10 @@ public class ArticleBean {
     //修改时间(后台)
     @Field(type = FieldType.Date)
     private Date InfoChangeTime;
+    //最近操作人
+    @MultiField(mainField = @Field(type = FieldType.Text,analyzer = "ik_max_word"),
+            otherFields = @InnerField(suffix = "keyword", type = FieldType.Keyword))
+    private String lastOperator;
     //期刊中文名称
     @MultiField(mainField = @Field(type = FieldType.Text,analyzer = "ik_max_word"),
             otherFields = @InnerField(suffix = "keyword", type = FieldType.Keyword))
@@ -260,19 +264,25 @@ public class ArticleBean {
             otherFields = @InnerField(suffix = "keyword", type = FieldType.Keyword))
     private String NameEName;
     //-------------------------------------------作者相关---------------------------------------------
+    //上传的作者和单位名称信息
+    @MultiField(mainField = @Field(type = FieldType.Text,analyzer = "ik_max_word"),
+            otherFields = @InnerField(suffix = "keyword", type = FieldType.Keyword))
+    private List<String> uploadAuthorUnitName;
     //作者和单位信息是否完整 0否1是
     @Field(type = FieldType.Integer)
     private Integer authorMatchedUnit;
     //作者和单位关系是否建立 0未建立1已建立2部分建立
     @Field(type = FieldType.Integer)
     private Integer buildRelation;
-    //上传的作者和单位名称信息
-    @MultiField(mainField = @Field(type = FieldType.Text,analyzer = "ik_max_word"),
-            otherFields = @InnerField(suffix = "keyword", type = FieldType.Keyword))
-    private List<String> uploadAuthorUnitName;
     //作者和单位信息
     @Field(type = FieldType.Nested)
     private List<AuthorAndUnitInfo> authorAndUnitInfo;
+    //第一作者
+    @Field(type = FieldType.Nested)
+    private FirstAuthor authorUnitId;
+    //第一单位
+    @Field(type = FieldType.Nested)
+    private FirstAuthoUnit authorUnitName;
     //----------------------------------------------作者相关--------------------------------------------
     //操作记录
     @Field(type = FieldType.Nested)
