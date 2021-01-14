@@ -98,15 +98,15 @@ public class ArticleBean {
             otherFields = @InnerField(suffix = "keyword", type = FieldType.Keyword))
     private String InfoSubTitle;
     //英文标题（自定义）
-    @MultiField(mainField = @Field(type = FieldType.Text,analyzer = "ik_max_word"),
+    @MultiField(mainField = @Field(type = FieldType.Text,analyzer = "standard"),
             otherFields = @InnerField(suffix = "keyword", type = FieldType.Keyword))
     private String CustomTitleEn;
     //英文标题
-    @MultiField(mainField = @Field(type = FieldType.Text,analyzer = "ik_max_word"),
+    @MultiField(mainField = @Field(type = FieldType.Text,analyzer = "standard"),
             otherFields = @InnerField(suffix = "keyword", type = FieldType.Keyword))
     private String InfoTitleEn;
     //英文副标题
-    @MultiField(mainField = @Field(type = FieldType.Text,analyzer = "ik_max_word"),
+    @MultiField(mainField = @Field(type = FieldType.Text,analyzer = "standard"),
             otherFields = @InnerField(suffix = "keyword", type = FieldType.Keyword))
     private String InfoSubTitleEn;
     //中文关键词
@@ -135,7 +135,7 @@ public class ArticleBean {
     @Field(type = FieldType.Text,analyzer = "ik_max_word")
     private String InfoSummary;
     //英文摘要
-    @Field(type = FieldType.Text,analyzer = "ik_max_word")
+    @Field(type = FieldType.Text,analyzer = "standard")
     private String InfoSummaryEn;
     //注释
     @Field(type = FieldType.Text,analyzer = "ik_max_word")
@@ -179,7 +179,7 @@ public class ArticleBean {
     //全文或目录
     @Field(type = FieldType.Text,analyzer = "ik_max_word")
     private String NameFlag;
-    //引用的文章和条
+    //引用的文章条数
     @Field(type = FieldType.Text,analyzer = "ik_max_word")
     private String ReferenceArticleGidTiaoNum;
     //检索全文
@@ -260,7 +260,7 @@ public class ArticleBean {
             otherFields = @InnerField(suffix = "keyword", type = FieldType.Keyword))
     private String NameCName;
     //期刊英文名称
-    @MultiField(mainField = @Field(type = FieldType.Text,analyzer = "ik_max_word"),
+    @MultiField(mainField = @Field(type = FieldType.Text,analyzer = "standard"),
             otherFields = @InnerField(suffix = "keyword", type = FieldType.Keyword))
     private String NameEName;
     //-------------------------------------------作者相关---------------------------------------------
@@ -274,15 +274,18 @@ public class ArticleBean {
     //作者和单位关系是否建立 0未建立1已建立2部分建立
     @Field(type = FieldType.Integer)
     private Integer buildRelation;
-    //作者和单位信息
+    //所有的作者和单位信息
     @Field(type = FieldType.Nested)
     private List<AuthorAndUnitInfo> authorAndUnitInfo;
+    //外国作者
+    @Field(type = FieldType.Nested)
+    private Author foreignAuthor;
     //第一作者
     @Field(type = FieldType.Nested)
-    private FirstAuthor authorUnitId;
+    private Author firstAuthor;
     //第一单位
     @Field(type = FieldType.Nested)
-    private FirstAuthoUnit authorUnitName;
+    private AuthorUnit firstAuthorUnit;
     //----------------------------------------------作者相关--------------------------------------------
     //操作记录
     @Field(type = FieldType.Nested)
