@@ -13,7 +13,7 @@ import java.util.List;
 /**
  * Created by liuhai on 2020/12/28 8:53
  */
-@Document(indexName = "houyi_qikan_article_dev",shards = 3,replicas = 2, type="info")
+@Document(indexName = "houyi_qikan_article_dev1",shards = 3,replicas = 2, type="info")
 @AllArgsConstructor
 @NoArgsConstructor
 @Setting(settingPath = "elasticsearch-settings.json")
@@ -36,7 +36,7 @@ public class ArticleBean {
     //期号
     @Field(type = FieldType.Integer)
     private Integer JournalIssue;
-    //文章状态
+    //文章状态  1不完整2上线3删除4封藏
     @Field(type = FieldType.Integer)
     private Integer articleStatus;
     //专题分类id
@@ -52,7 +52,7 @@ public class ArticleBean {
     //PDF状态
     @Field(type = FieldType.Integer)
     private Integer IsUpLoadPdf;
-    //确认状态
+    //确认状态  1已确认2已修改
     @Field(type = FieldType.Keyword)
     private String Info_Preview;
     //收录时间
@@ -268,9 +268,6 @@ public class ArticleBean {
     @MultiField(mainField = @Field(type = FieldType.Text,analyzer = "ik_max_word"),
             otherFields = @InnerField(suffix = "keyword", type = FieldType.Keyword))
     private List<String> uploadAuthorUnitName;
-    //作者和单位信息是否完整 0否1是
-    @Field(type = FieldType.Integer)
-    private Integer authorMatchedUnit;
     //作者和单位关系是否建立 0未建立1已建立2部分建立
     @Field(type = FieldType.Integer)
     private Integer buildRelation;
@@ -286,11 +283,14 @@ public class ArticleBean {
     //第一单位
     @Field(type = FieldType.Nested)
     private AuthorUnit firstAuthorUnit;
+    //作者id，copy_to的
+    @Field(type = FieldType.Keyword,store = true)
+    private String authorIds;
     //----------------------------------------------作者相关--------------------------------------------
     //操作记录
     @Field(type = FieldType.Nested)
     private List<OperateRecord> operateRecord;
-    //是否纳入影响因子统计源
+    //是否纳入影响因子统计源 0否1是
     @Field(type = FieldType.Integer)
     private Integer statisticsIF;
 }

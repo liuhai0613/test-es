@@ -14,7 +14,7 @@ import java.util.List;
 @Data
 public class AuthorAndUnitInfo {
     //作者id
-    @Field(type = FieldType.Keyword)
+    @Field(type = FieldType.Keyword,copyTo = {"authorIds"})
     private String authorId;
     //作者名或曾用名
     @MultiField(mainField = @Field(type = FieldType.Text,analyzer = "ik_max_word"),
