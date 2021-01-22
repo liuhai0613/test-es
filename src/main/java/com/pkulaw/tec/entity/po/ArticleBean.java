@@ -13,7 +13,7 @@ import java.util.List;
 /**
  * Created by liuhai on 2020/12/28 8:53
  */
-@Document(indexName = "houyi_qikan_article_dev1",shards = 3,replicas = 2, type="info")
+@Document(indexName = "houyi_qikan_article_dev2",shards = 3,replicas = 2, type="info")
 @AllArgsConstructor
 @NoArgsConstructor
 @Setting(settingPath = "elasticsearch-settings.json")
