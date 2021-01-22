@@ -13,6 +13,7 @@ import java.util.List;
 /**
  * Created by liuhai on 2020/12/28 8:53
  */
+//有@Setting 会导致@Document失效
 @Document(indexName = "houyi_qikan_article_dev2",shards = 3,replicas = 2, type="info")
 @AllArgsConstructor
 @NoArgsConstructor
