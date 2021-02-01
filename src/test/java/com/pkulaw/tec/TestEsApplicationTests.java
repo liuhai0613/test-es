@@ -3,7 +3,7 @@ package com.pkulaw.tec;
 import com.google.common.collect.Lists;
 import com.pkulaw.tec.entity.po.ArticleBean;
 import com.pkulaw.tec.entity.po.EsBean;
-import com.pkulaw.tec.entity.po.nested.AuthorAndUnitInfo;
+import com.pkulaw.tec.entity.po.nested.article.AuthorAndUnitInfo;
 import com.pkulaw.tec.mapper.ArticleMapper;
 import com.pkulaw.tec.mapper.EsMapper;
 import org.apache.lucene.search.join.ScoreMode;

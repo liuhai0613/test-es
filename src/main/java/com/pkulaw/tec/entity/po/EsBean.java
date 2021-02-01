@@ -1,6 +1,6 @@
 package com.pkulaw.tec.entity.po;
 
-import com.pkulaw.tec.entity.po.nested.JobRecord;
+import com.pkulaw.tec.entity.po.nested.test.JobRecord;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;

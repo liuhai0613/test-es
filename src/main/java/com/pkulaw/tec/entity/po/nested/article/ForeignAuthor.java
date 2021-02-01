@@ -1,4 +1,4 @@
-package com.pkulaw.tec.entity.po.nested;
+package com.pkulaw.tec.entity.po.nested.article;
 
 import lombok.Data;
 import org.springframework.data.elasticsearch.annotations.Field;

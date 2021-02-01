@@ -1,4 +1,4 @@
-package com.pkulaw.tec.entity.po.nested;
+package com.pkulaw.tec.entity.po.nested.article;
 
 import lombok.Data;
 import org.springframework.data.elasticsearch.annotations.Field;
@@ -9,22 +9,18 @@ import org.springframework.data.elasticsearch.annotations.MultiField;
 import java.util.List;
 
 /**
- * Created by liuhai on 2020/12/28 13:21
+ * Created by liuhai on 2020/12/28 13:20
  */
 @Data
-public class AuthorAndUnitInfo {
-    //作者id
-    @Field(type = FieldType.Keyword,copyTo = {"authorIds"})
+public class AuthorInfo {
+
+    @Field(type = FieldType.Keyword)
     private String authorId;
-    //作者名或曾用名
+
     @MultiField(mainField = @Field(type = FieldType.Text,analyzer = "ik_max_word"),
             otherFields = @InnerField(suffix = "keyword", type = FieldType.Keyword))
     private String authorName;
-    //作者和单位关系是否建立 0未建立1建立
+    //是否是外国作者0否1是
     @Field(type = FieldType.Integer)
-    private Integer buildRelation;
-    //单位信息
-    @Field(type = FieldType.Nested)
-    List<AuthorUnitInfoJobs> authorUnits;
-
+    private String authorOfForeign;
 }

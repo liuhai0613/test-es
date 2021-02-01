@@ -1,6 +1,6 @@
 package com.pkulaw.tec.entity.po;
 
-import com.pkulaw.tec.entity.po.nested.*;
+import com.pkulaw.tec.entity.po.nested.article.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -14,7 +14,7 @@ import java.util.List;
  * Created by liuhai on 2020/12/28 8:53
  */
 //有@Setting 会导致@Document失效
-@Document(indexName = "houyi_qikan_article_dev2",shards = 3,replicas = 2, type="info")
+@Document(indexName = "houyi_qikan_article_dev3",shards = 3,replicas = 2, type="info")
 @AllArgsConstructor
 @NoArgsConstructor
 @Setting(settingPath = "elasticsearch-settings.json")
@@ -257,14 +257,18 @@ public class ArticleBean {
             otherFields = @InnerField(suffix = "keyword", type = FieldType.Keyword))
     private String lastOperator;
     //期刊中文名称
-    @MultiField(mainField = @Field(type = FieldType.Text,analyzer = "ik_max_word"),
+    @MultiField(mainField = @Field(type = FieldType.Text,analyzer = "ik_max_word",copyTo = {"journalName"}),
             otherFields = @InnerField(suffix = "keyword", type = FieldType.Keyword))
     private String NameCName;
     //期刊英文名称
-    @MultiField(mainField = @Field(type = FieldType.Text,analyzer = "standard"),
+    @MultiField(mainField = @Field(type = FieldType.Text,analyzer = "standard",copyTo = {"journalName"}),
             otherFields = @InnerField(suffix = "keyword", type = FieldType.Keyword))
     private String NameEName;
-    //-------------------------------------------作者相关---------------------------------------------
+    //合并的期刊名称
+    @MultiField(mainField = @Field(type = FieldType.Text,analyzer = "ik_max_word",store = true),
+            otherFields = @InnerField(suffix = "keyword", type = FieldType.Keyword))
+    private String journalName;
+    //-------------------------------------------作者相关--------------------------------------------->
     //上传的作者和单位名称信息
     @MultiField(mainField = @Field(type = FieldType.Text,analyzer = "ik_max_word"),
             otherFields = @InnerField(suffix = "keyword", type = FieldType.Keyword))
@@ -272,6 +276,9 @@ public class ArticleBean {
     //作者和单位关系是否建立 0未建立1已建立2部分建立
     @Field(type = FieldType.Integer)
     private Integer buildRelation;
+    //作者和单位信息是否完整 0否1是
+    @Field(type = FieldType.Integer)
+    private Integer authorMatchedUnit;
     //所有的作者和单位信息
     @Field(type = FieldType.Nested)
     private List<AuthorAndUnitInfo> authorAndUnitInfo;
@@ -287,11 +294,24 @@ public class ArticleBean {
     //作者id，copy_to的
     @Field(type = FieldType.Keyword,store = true)
     private String authorIds;
-    //----------------------------------------------作者相关--------------------------------------------
+    //<----------------------------------------------作者相关--------------------------------------------
+    //----------------------------------------------原后台作者相关-------------------------------------->
+    //作者名称  原后台分text keyword两个
+    @MultiField(mainField = @Field(type = FieldType.Text,analyzer = "ik_max_word"),
+            otherFields = @InnerField(suffix = "keyword", type = FieldType.Keyword))
+    private String InfoAuthor;
+    //单位名称  原后台分text keyword两个
+    @MultiField(mainField = @Field(type = FieldType.Text,analyzer = "ik_max_word"),
+            otherFields = @InnerField(suffix = "keyword", type = FieldType.Keyword))
+    private String AuthorUnit;
+    //<----------------------------------------------原后台作者相关--------------------------------------
     //操作记录
     @Field(type = FieldType.Nested)
     private List<OperateRecord> operateRecord;
     //是否纳入影响因子统计源 0否1是
     @Field(type = FieldType.Integer)
     private Integer statisticsIF;
+    //新增字段,分页的文章正文
+    @Field(type = FieldType.Nested)
+    private PageContentTxt pageContentTxt;
 }

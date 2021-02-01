@@ -1,4 +1,4 @@
-package com.pkulaw.tec.entity.po.nested;
+package com.pkulaw.tec.entity.po.nested.article;
 
 import lombok.Data;
 import org.springframework.data.elasticsearch.annotations.Field;
@@ -7,14 +7,15 @@ import org.springframework.data.elasticsearch.annotations.InnerField;
 import org.springframework.data.elasticsearch.annotations.MultiField;
 
 /**
- * Created by liuhai on 2021/1/12 9:23
+ * Created by liuhai on 2020/12/30 9:06
  */
 @Data
-public class AuthorUnit {
+public class Author {
+
     @Field(type = FieldType.Keyword)
-    private String authorUnitId;
+    private String authorId;
 
     @MultiField(mainField = @Field(type = FieldType.Text,analyzer = "ik_max_word"),
             otherFields = @InnerField(suffix = "keyword", type = FieldType.Keyword))
-    private String authorUnitName;
+    private String authorName;
 }

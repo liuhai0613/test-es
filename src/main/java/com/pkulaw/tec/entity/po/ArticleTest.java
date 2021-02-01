@@ -1,16 +1,14 @@
 package com.pkulaw.tec.entity.po;
 
-import com.pkulaw.tec.entity.po.nested.AuthorAndUnitInfo;
-import com.pkulaw.tec.entity.po.nested.AuthorInfo;
+import com.pkulaw.tec.entity.po.nested.article.AuthorAndUnitInfo;
+import com.pkulaw.tec.entity.po.nested.article.AuthorInfo;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.springframework.core.annotation.AliasFor;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.elasticsearch.annotations.Document;
 import org.springframework.data.elasticsearch.annotations.Field;
 import org.springframework.data.elasticsearch.annotations.FieldType;
-import org.springframework.data.elasticsearch.annotations.Mapping;
 
 import java.util.List;
 
