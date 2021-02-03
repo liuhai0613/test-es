@@ -20,9 +20,6 @@ public class AuthorAndUnitInfo {
     @MultiField(mainField = @Field(type = FieldType.Text,analyzer = "ik_max_word"),
             otherFields = @InnerField(suffix = "keyword", type = FieldType.Keyword))
     private String authorName;
-    //作者和单位关系是否建立 0未建立1建立
-    @Field(type = FieldType.Integer)
-    private Integer buildRelation;
     //单位信息
     @Field(type = FieldType.Nested)
     List<AuthorUnitInfoJobs> authorUnits;

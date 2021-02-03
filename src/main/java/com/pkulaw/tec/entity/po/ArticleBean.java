@@ -37,7 +37,7 @@ public class ArticleBean {
     //期号
     @Field(type = FieldType.Integer)
     private Integer JournalIssue;
-    //文章状态  1不完整2上线3删除4封藏
+    //文章状态  2上线3删除4封藏5撤回
     @Field(type = FieldType.Integer)
     private Integer articleStatus;
     //专题分类id
@@ -50,7 +50,7 @@ public class ArticleBean {
     //修改日期(前台)
     @Field(type = FieldType.Date)
     private Date UpdateTime;
-    //PDF状态
+    //PDF状态 0无PDF，1未上传，2已上传（后台只有0和2）
     @Field(type = FieldType.Integer)
     private Integer IsUpLoadPdf;
     //确认状态  1已确认2已修改
@@ -67,7 +67,7 @@ public class ArticleBean {
     private String Info_Kind;
     //人工学科分类
     @Field(type = FieldType.Keyword)
-    private String Info_ManArticleKing;
+    private String InfoKind;
     //被引频次
     @Field(type = FieldType.Integer)
     private Integer BeReferencedNum;
@@ -77,9 +77,6 @@ public class ArticleBean {
     //阅读量
     @Field(type = FieldType.Integer)
     private Integer BrowseNum;
-    //操作人
-    @Field(type = FieldType.Keyword)
-    private String operate_user;
     //总期数
     @Field(type = FieldType.Keyword)
     private String Journal_AllIssue_new;
@@ -119,7 +116,7 @@ public class ArticleBean {
     private String PeriodicalColumn;
     //中图分类号
     @Field(type = FieldType.Keyword)
-    private String Info_Sortnum;
+    private String InfoSortnum;
     //英文关键词
     @Field(type = FieldType.Keyword)
     private String InfoKeywordEn;
@@ -153,15 +150,15 @@ public class ArticleBean {
     //pdf文件路径
     @Field(type = FieldType.Keyword)
     private String InfoPdfName;
+    //pdf名称
+    @Field(type = FieldType.Keyword)
+    private String pdfName;
     //文章编码
     @Field(type = FieldType.Keyword)
     private String InfoCoding;
     //文章分类（目录或内容）
     @Field(type = FieldType.Integer)
     private Integer Info_Flag;
-    //推荐排序
-    @Field(type = FieldType.Keyword)
-    private String InfoSortNum;
     //总期号
     @Field(type = FieldType.Keyword)
     private String JournalAllIssue;
@@ -171,10 +168,10 @@ public class ArticleBean {
     //关键词
     @Field(type = FieldType.Keyword)
     private String Keyword;
-    //Pdf大小
+    //pdf页数
     @Field(type = FieldType.Integer)
     private Integer ContentPdfPage;
-    //内容
+    //内容、带html标签
     @Field(type = FieldType.Text,analyzer = "ik_max_word")
     private String ContentTxt;
     //全文或目录
@@ -183,7 +180,7 @@ public class ArticleBean {
     //引用的文章条数
     @Field(type = FieldType.Text,analyzer = "ik_max_word")
     private String ReferenceArticleGidTiaoNum;
-    //检索全文
+    //检索全文，检索用不带html标签
     @Field(type = FieldType.Text,analyzer = "ik_max_word")
     private String CheckFullText;
     //大分类
@@ -246,15 +243,11 @@ public class ArticleBean {
     //专题标识
     @Field(type = FieldType.Text,analyzer = "ik_max_word")
     private String Specialtopic;
-    //删除前状态
-    @Field(type = FieldType.Integer)
-    private Integer beforeDelStatus;
     //修改时间(后台)
     @Field(type = FieldType.Date)
     private Date InfoChangeTime;
     //最近操作人
-    @MultiField(mainField = @Field(type = FieldType.Text,analyzer = "ik_max_word"),
-            otherFields = @InnerField(suffix = "keyword", type = FieldType.Keyword))
+    @Field(type = FieldType.Keyword)
     private String lastOperator;
     //期刊中文名称
     @MultiField(mainField = @Field(type = FieldType.Text,analyzer = "ik_max_word",copyTo = {"journalName"}),
@@ -273,7 +266,7 @@ public class ArticleBean {
     @MultiField(mainField = @Field(type = FieldType.Text,analyzer = "ik_max_word"),
             otherFields = @InnerField(suffix = "keyword", type = FieldType.Keyword))
     private List<String> uploadAuthorUnitName;
-    //作者和单位关系是否建立 0未建立1已建立2部分建立
+    //作者和单位关系是否建立 0未建立1已建立
     @Field(type = FieldType.Integer)
     private Integer buildRelation;
     //作者和单位信息是否完整 0否1是
@@ -294,6 +287,12 @@ public class ArticleBean {
     //作者id，copy_to的
     @Field(type = FieldType.Keyword,store = true)
     private String authorIds;
+    //外国作者名称
+    private List<String> foreignAuthorName;
+    //第一作者名称
+    private String firstAuthorName;
+    //第一作者单位名称
+    private String firstAuthorUnitName;
     //<----------------------------------------------作者相关--------------------------------------------
     //----------------------------------------------原后台作者相关-------------------------------------->
     //作者名称  原后台分text keyword两个
@@ -314,4 +313,8 @@ public class ArticleBean {
     //新增字段,分页的文章正文
     @Field(type = FieldType.Nested)
     private PageContentTxt pageContentTxt;
+    //排序id （保留字段，历史原因，可能有局域网使用）
+    @Field(type = FieldType.Keyword)
+    private String Info_SortId;
+
 }
