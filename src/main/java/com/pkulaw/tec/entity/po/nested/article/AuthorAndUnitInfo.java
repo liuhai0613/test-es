@@ -20,6 +20,9 @@ public class AuthorAndUnitInfo {
     @MultiField(mainField = @Field(type = FieldType.Text,analyzer = "ik_max_word"),
             otherFields = @InnerField(suffix = "keyword", type = FieldType.Keyword))
     private String authorName;
+    //是否是外国作者
+    @Field(type = FieldType.Boolean)
+    private Boolean bForeignAuthor;
     //单位信息
     @Field(type = FieldType.Nested)
     List<AuthorUnitInfoJobs> authorUnits;

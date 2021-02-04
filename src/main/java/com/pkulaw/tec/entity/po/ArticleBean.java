@@ -14,7 +14,7 @@ import java.util.List;
  * Created by liuhai on 2020/12/28 8:53
  */
 //有@Setting 会导致@Document失效
-@Document(indexName = "houyi_qikan_article_dev3",shards = 3,replicas = 2, type="info")
+@Document(indexName = "houyi_qikan_article_dev2",shards = 3,replicas = 2, type="info")
 @AllArgsConstructor
 @NoArgsConstructor
 @Setting(settingPath = "elasticsearch-settings.json")
@@ -275,9 +275,6 @@ public class ArticleBean {
     //所有的作者和单位信息
     @Field(type = FieldType.Nested)
     private List<AuthorAndUnitInfo> authorAndUnitInfo;
-    //外国作者
-    @Field(type = FieldType.Nested)
-    private Author foreignAuthor;
     //第一作者
     @Field(type = FieldType.Nested)
     private Author firstAuthor;
