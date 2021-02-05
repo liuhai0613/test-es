@@ -252,11 +252,11 @@ public class ArticleBean {
             otherFields = @InnerField(suffix = "keyword", type = FieldType.Keyword))
     private String NameEName;
     //合并的期刊名称
-    @MultiField(mainField = @Field(type = FieldType.Text,analyzer = "ik_max_word",store = true),
+    @MultiField(mainField = @Field(type = FieldType.Text,analyzer = "standard",store = true),
             otherFields = @InnerField(suffix = "keyword", type = FieldType.Keyword))
     private String journalName;
     //-------------------------------------------作者相关--------------------------------------------->
-    //上传的作者和单位名称信息
+    //上传的作者和单位名称信息（上传的名称描述信息,某某单位某某职称某某人多个用逗号隔开）
     @MultiField(mainField = @Field(type = FieldType.Text,analyzer = "ik_max_word"),
             otherFields = @InnerField(suffix = "keyword", type = FieldType.Keyword))
     private List<String> uploadAuthorUnitName;
@@ -275,7 +275,7 @@ public class ArticleBean {
     //第一单位
     @Field(type = FieldType.Nested)
     private AuthorUnit firstAuthorUnit;
-    //作者id，copy_to的
+    //作者id，copy_to来的
     @Field(type = FieldType.Keyword,store = true)
     private String authorIds;
     //外国作者名称
@@ -284,6 +284,8 @@ public class ArticleBean {
     private String firstAuthorName;
     //第一作者单位名称
     private String firstAuthorUnitName;
+    //职称（名称数组）
+    private List<String> positions;
     //<----------------------------------------------作者相关--------------------------------------------
     //----------------------------------------------原后台作者相关-------------------------------------->
     //作者名称  原后台分text keyword两个
@@ -294,6 +296,14 @@ public class ArticleBean {
     @MultiField(mainField = @Field(type = FieldType.Text,analyzer = "ik_max_word"),
             otherFields = @InnerField(suffix = "keyword", type = FieldType.Keyword))
     private String AuthorUnit;
+    //外国作者(保留字段,v5使用，实际都没有值)
+    @MultiField(mainField = @Field(type = FieldType.Text,analyzer = "ik_max_word"),
+            otherFields = @InnerField(suffix = "keyword", type = FieldType.Keyword))
+    private String Info_Eauthor;
+    //作者单位(保留字段，v5使用)
+    @MultiField(mainField = @Field(type = FieldType.Text,analyzer = "ik_max_word"),
+            otherFields = @InnerField(suffix = "keyword", type = FieldType.Keyword))
+    private String Info_AuthorUnit;
     //<----------------------------------------------原后台作者相关--------------------------------------
     //操作记录
     @Field(type = FieldType.Nested)
@@ -304,7 +314,7 @@ public class ArticleBean {
     //原字段类型修改为nested,正文(带html标签)分页
     @Field(type = FieldType.Nested)
     private PageContentTxt ContentTxt;
-    ////原字段类型修改为nested,正文(不带html标签)分页
+    //原字段类型修改为nested,正文(不带html标签)分页
     @Field(type = FieldType.Nested)
     private PageContentTxt CheckFullText;
     //排序id （保留字段，历史原因，可能有局域网使用）
