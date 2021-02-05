@@ -59,7 +59,7 @@ public class ArticleBean {
     //收录时间
     @Field(type = FieldType.Date)
     private Integer uploadTime;
-    //排序
+    //排序  被引量，下载量，浏览量
     @Field(type = FieldType.Integer)
     private Integer sortNum;
     //智能学科分类
