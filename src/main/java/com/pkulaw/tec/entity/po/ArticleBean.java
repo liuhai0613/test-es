@@ -171,18 +171,12 @@ public class ArticleBean {
     //pdf页数
     @Field(type = FieldType.Integer)
     private Integer ContentPdfPage;
-    //内容、带html标签
-    @Field(type = FieldType.Text,analyzer = "ik_max_word")
-    private String ContentTxt;
     //全文或目录
     @Field(type = FieldType.Text,analyzer = "ik_max_word")
     private String NameFlag;
     //引用的文章条数
     @Field(type = FieldType.Text,analyzer = "ik_max_word")
     private String ReferenceArticleGidTiaoNum;
-    //检索全文，检索用不带html标签
-    @Field(type = FieldType.Text,analyzer = "ik_max_word")
-    private String CheckFullText;
     //大分类
     @Field(type = FieldType.Keyword)
     private String Category;
@@ -307,9 +301,12 @@ public class ArticleBean {
     //是否纳入影响因子统计源 0否1是
     @Field(type = FieldType.Integer)
     private Integer statisticsIF;
-    //新增字段,分页的文章正文
+    //原字段类型修改为nested,正文(带html标签)分页
     @Field(type = FieldType.Nested)
-    private PageContentTxt pageContentTxt;
+    private PageContentTxt ContentTxt;
+    ////原字段类型修改为nested,正文(不带html标签)分页
+    @Field(type = FieldType.Nested)
+    private PageContentTxt CheckFullText;
     //排序id （保留字段，历史原因，可能有局域网使用）
     @Field(type = FieldType.Keyword)
     private String Info_SortId;
