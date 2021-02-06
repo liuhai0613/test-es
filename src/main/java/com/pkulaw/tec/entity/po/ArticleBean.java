@@ -108,7 +108,8 @@ public class ArticleBean {
             otherFields = @InnerField(suffix = "keyword", type = FieldType.Keyword))
     private String InfoSubTitleEn;
     //中文关键词
-    @Field(type = FieldType.Keyword)
+    @MultiField(mainField = @Field(type = FieldType.Text,analyzer = "ik_max_word"),
+            otherFields = @InnerField(suffix = "keyword", type = FieldType.Keyword))
     private String InfoKeyword;
     //期刊栏目
     @MultiField(mainField = @Field(type = FieldType.Text,analyzer = "ik_max_word"),
@@ -118,7 +119,8 @@ public class ArticleBean {
     @Field(type = FieldType.Keyword)
     private String InfoSortnum;
     //英文关键词
-    @Field(type = FieldType.Keyword)
+    @MultiField(mainField = @Field(type = FieldType.Text,analyzer = "standard"),
+            otherFields = @InnerField(suffix = "keyword", type = FieldType.Keyword))
     private String InfoKeywordEn;
     //文献标识码
     @Field(type = FieldType.Keyword)
@@ -205,7 +207,8 @@ public class ArticleBean {
     @Field(type = FieldType.Keyword)
     private String CN;
     //基金
-    @Field(type = FieldType.Text,analyzer = "ik_max_word")
+    @MultiField(mainField = @Field(type = FieldType.Text,analyzer = "ik_max_word"),
+            otherFields = @InnerField(suffix = "keyword", type = FieldType.Keyword))
     private String Fund;
     //被引文献
     @Field(type = FieldType.Text,analyzer = "ik_max_word")
@@ -279,12 +282,20 @@ public class ArticleBean {
     @Field(type = FieldType.Keyword,store = true)
     private String authorIds;
     //外国作者名称
+    @MultiField(mainField = @Field(type = FieldType.Text,analyzer = "standard"),
+            otherFields = @InnerField(suffix = "keyword", type = FieldType.Keyword))
     private List<String> foreignAuthorName;
     //第一作者名称
+    @MultiField(mainField = @Field(type = FieldType.Text,analyzer = "ik_max_word"),
+            otherFields = @InnerField(suffix = "keyword", type = FieldType.Keyword))
     private String firstAuthorName;
     //第一作者单位名称
+    @MultiField(mainField = @Field(type = FieldType.Text,analyzer = "ik_max_word"),
+            otherFields = @InnerField(suffix = "keyword", type = FieldType.Keyword))
     private String firstAuthorUnitName;
     //职称（名称数组）
+    @MultiField(mainField = @Field(type = FieldType.Text,analyzer = "ik_max_word"),
+            otherFields = @InnerField(suffix = "keyword", type = FieldType.Keyword))
     private List<String> positions;
     //<----------------------------------------------作者相关--------------------------------------------
     //----------------------------------------------原后台作者相关-------------------------------------->
