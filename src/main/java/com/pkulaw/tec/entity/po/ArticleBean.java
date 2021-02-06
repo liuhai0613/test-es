@@ -281,6 +281,9 @@ public class ArticleBean {
     //作者id，copy_to来的
     @Field(type = FieldType.Keyword,store = true)
     private String authorIds;
+    //作者单位id，copy_to来的
+    @Field(type = FieldType.Keyword,store = true)
+    private String authorUnitsIds;
     //外国作者名称
     @MultiField(mainField = @Field(type = FieldType.Text,analyzer = "standard"),
             otherFields = @InnerField(suffix = "keyword", type = FieldType.Keyword))

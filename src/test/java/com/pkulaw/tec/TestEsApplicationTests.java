@@ -4,6 +4,7 @@ import com.google.common.collect.Lists;
 import com.pkulaw.tec.entity.po.ArticleBean;
 import com.pkulaw.tec.entity.po.EsBean;
 import com.pkulaw.tec.entity.po.nested.article.AuthorAndUnitInfo;
+import com.pkulaw.tec.entity.po.nested.article.AuthorUnitInfoJobs;
 import com.pkulaw.tec.mapper.ArticleMapper;
 import com.pkulaw.tec.mapper.EsMapper;
 import org.apache.lucene.search.join.ScoreMode;
@@ -120,29 +121,41 @@ class TestEsApplicationTests {
     @Test
     void saveArticle() {
         ArticleBean first = new ArticleBean();
-        first.setId(1010101l);
+        first.setId(10101011l);
         List<AuthorAndUnitInfo> list1 = new ArrayList<>();
         AuthorAndUnitInfo info1 = new AuthorAndUnitInfo();
         info1.setAuthorId("2001");
+        AuthorUnitInfoJobs unit1 = new AuthorUnitInfoJobs();
+        unit1.setAuthorUnitId("001001");
+        info1.setAuthorUnits(Arrays.asList(unit1));
         list1.add(info1);
         first.setAuthorAndUnitInfo(list1);
 
         ArticleBean second = new ArticleBean();
-        second.setId(1011102l);
+        second.setId(10111021l);
         List<AuthorAndUnitInfo> list2 = new ArrayList<>();
         AuthorAndUnitInfo info11 = new AuthorAndUnitInfo();
         info11.setAuthorId("2001");
+        AuthorUnitInfoJobs unit2 = new AuthorUnitInfoJobs();
+        unit2.setAuthorUnitId("001002");
+        info11.setAuthorUnits(Arrays.asList(unit2));
         AuthorAndUnitInfo info22 = new AuthorAndUnitInfo();
         info22.setAuthorId("2001");
+        AuthorUnitInfoJobs unit3 = new AuthorUnitInfoJobs();
+        unit3.setAuthorUnitId("001003");
+        info22.setAuthorUnits(Arrays.asList(unit3));
         AuthorAndUnitInfo info33 = new AuthorAndUnitInfo();
         info33.setAuthorId("2005");
+        AuthorUnitInfoJobs unit4 = new AuthorUnitInfoJobs();
+        unit4.setAuthorUnitId("001004");
+        info33.setAuthorUnits(Arrays.asList(unit4));
         list2.add(info11);
         list2.add(info22);
         list2.add(info33);
         second.setAuthorAndUnitInfo(list2);
 
         ArticleBean third = new ArticleBean();
-        third.setId(1011203l);
+        third.setId(10112031l);
         List<AuthorAndUnitInfo> list3 = new ArrayList<>();
         AuthorAndUnitInfo info111 = new AuthorAndUnitInfo();
         info111.setAuthorId("2005");
@@ -170,7 +183,7 @@ class TestEsApplicationTests {
         //检索信息
         SearchQuery build  =  nativeSearchQueryBuilder.withQuery(boolQueryBuilder)
                 .withIndices("liuh_test6")
-                .withFields("info")
+                .withTypes("info")
                 .build();
         //执行查询
         List<Map<String,Object>> results = elasticsearchRestTemplate.query(build, searchResponse->{
@@ -184,5 +197,39 @@ class TestEsApplicationTests {
             }
             return list;
         });
+    }
+
+    @Test
+    void test2(){
+        //查询条件设置
+        NativeSearchQueryBuilder nativeSearchQueryBuilder = new NativeSearchQueryBuilder();
+        InnerHitBuilder innerHitBuilder = new InnerHitBuilder();
+        innerHitBuilder.setSize(10);
+        BoolQueryBuilder boolQueryBuilder = boolQuery();
+        BoolQueryBuilder boolQueryBuilder2 = boolQuery();
+        boolQueryBuilder2.should(QueryBuilders.termQuery("operateRecord.reason", "001006"));
+        boolQueryBuilder2.should(QueryBuilders.termQuery("operateRecord.detailReason", "曹伟录入了错的数据！"));
+
+        boolQueryBuilder.must(QueryBuilders.nestedQuery("operateRecord",
+                boolQueryBuilder2, ScoreMode.None).innerHit(innerHitBuilder));
+        //检索信息
+        SearchQuery build  =  nativeSearchQueryBuilder.withQuery(boolQueryBuilder)
+                .withIndices("houyi_qikan_journal_dev35")
+                .withTypes("info")
+                .build();
+        //执行查询
+        List<Map<String,Object>> results = elasticsearchRestTemplate.query(build, searchResponse->{
+            SearchHits hits = searchResponse.getHits();
+            List<Map<String,Object>> list = new ArrayList<>();
+            for(SearchHit hit: hits.getHits()){
+                Map<String, SearchHits> innerHits = hit.getInnerHits();
+                Iterator<SearchHit> operateRecord = innerHits.get("operateRecord").iterator();
+                while(operateRecord.hasNext()){
+                    list.add(operateRecord.next().getSourceAsMap());
+                }
+            }
+            return list;
+        });
+
     }
 }

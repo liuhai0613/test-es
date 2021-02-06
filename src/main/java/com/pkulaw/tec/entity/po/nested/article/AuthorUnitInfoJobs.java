@@ -13,7 +13,7 @@ import java.util.List;
  */
 @Data
 public class AuthorUnitInfoJobs {
-    @Field(type = FieldType.Keyword)
+    @Field(type = FieldType.Keyword,copyTo = {"authorUnitsIds"})
     private String authorUnitId;
 
     @MultiField(mainField = @Field(type = FieldType.Text,analyzer = "ik_max_word"),
