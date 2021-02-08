@@ -4,6 +4,7 @@ import com.pkulaw.tec.entity.po.nested.article.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.checkerframework.checker.formatter.qual.Format;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.elasticsearch.annotations.*;
 
@@ -20,7 +21,10 @@ import java.util.List;
 @Setting(settingPath = "elasticsearch-settings.json")
 @Data
 public class ArticleBean {
-
+    public static final String pattern = "yyyy||yyyyMM||yyyy.MM||yyyy/MM||yyyy-MM||yyyyMMdd" +
+            "||yyyy.MM.dd||yyyy/MM/dd||yyyy-MM-dd||yyyy-MM-dd HH:mm:ss" +
+            "||yyyy.MM.dd HH:mm:ss||yyyy/MM/dd HH:mm:ss||yyyy-MM-dd HH:mm:ss.SSS" +
+            "||yyyy.MM.dd HH:mm:ss.SSS||yyyy/MM/dd HH:mm:ss.SSS";
     @Id
     private Long id;
     //文章ID
@@ -49,7 +53,7 @@ public class ArticleBean {
             otherFields = @InnerField(suffix = "keyword", type = FieldType.Keyword))
     private String SpecialName;
     //修改日期(前台)
-    @Field(type = FieldType.Date)
+    @Field(type = FieldType.Date,format = DateFormat.custom,pattern = pattern)
     private Date UpdateTime;
     //PDF状态 0无PDF，1未上传，2已上传（后台只有0和2）
     @Field(type = FieldType.Integer)
@@ -58,7 +62,7 @@ public class ArticleBean {
     @Field(type = FieldType.Keyword)
     private String Info_Preview;
     //收录时间
-    @Field(type = FieldType.Date)
+    @Field(type = FieldType.Date,format = DateFormat.custom,pattern = pattern)
     private Integer uploadTime;
     //排序  被引量，下载量，浏览量
     @Field(type = FieldType.Integer)
@@ -239,7 +243,7 @@ public class ArticleBean {
     @Field(type = FieldType.Text,analyzer = "ik_max_word")
     private String Specialtopic;
     //修改时间(后台)
-    @Field(type = FieldType.Date)
+    @Field(type = FieldType.Date,format = DateFormat.custom,pattern = pattern)
     private Date InfoChangeTime;
     //最近操作人
     @Field(type = FieldType.Keyword)

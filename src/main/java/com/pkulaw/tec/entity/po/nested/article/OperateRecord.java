@@ -1,6 +1,8 @@
 package com.pkulaw.tec.entity.po.nested.article;
 
+import com.pkulaw.tec.entity.po.ArticleBean;
 import lombok.Data;
+import org.springframework.data.elasticsearch.annotations.DateFormat;
 import org.springframework.data.elasticsearch.annotations.Field;
 import org.springframework.data.elasticsearch.annotations.FieldType;
 
@@ -15,7 +17,7 @@ public class OperateRecord {
     private String type;
     @Field(type = FieldType.Keyword)
     private String operator;
-    @Field(type = FieldType.Date)
+    @Field(type = FieldType.Date,format = DateFormat.custom,pattern = ArticleBean.pattern)
     private Date updateTime;
     @Field(type = FieldType.Keyword)
     private String reason;
