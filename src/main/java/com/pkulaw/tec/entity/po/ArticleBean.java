@@ -20,6 +20,7 @@ import java.util.List;
 @Setting(settingPath = "elasticsearch-settings.json")
 @Data
 public class ArticleBean {
+
     @Id
     private Long id;
     //文章ID
@@ -158,9 +159,6 @@ public class ArticleBean {
     //文章编码
     @Field(type = FieldType.Keyword)
     private String InfoCoding;
-    //文章分类（目录或内容）
-    @Field(type = FieldType.Integer)
-    private Integer Info_Flag;
     //总期号
     @Field(type = FieldType.Keyword)
     private String JournalAllIssue;
@@ -318,7 +316,7 @@ public class ArticleBean {
     @MultiField(mainField = @Field(type = FieldType.Text,analyzer = "ik_max_word"),
             otherFields = @InnerField(suffix = "keyword", type = FieldType.Keyword))
     private String Info_AuthorUnit;
-    //<----------------------------------------------原后台作者相关--------------------------------------
+    //<----------------------------------------------原后台作者相关------------------------------------>--
     //操作记录
     @Field(type = FieldType.Nested)
     private List<OperateRecord> operateRecord;
@@ -329,8 +327,8 @@ public class ArticleBean {
     @Field(type = FieldType.Nested)
     private PageContentTxt ContentTxt;
     //原字段类型修改为nested,正文(不带html标签)分页
-    @Field(type = FieldType.Nested)
-    private PageContentTxt CheckFullText;
+    @Field(type = FieldType.Text)
+    private String CheckFullText;
     //排序id （保留字段，历史原因，可能有局域网使用）
     @Field(type = FieldType.Keyword)
     private String Info_SortId;

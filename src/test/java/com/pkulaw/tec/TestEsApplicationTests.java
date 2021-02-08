@@ -8,6 +8,7 @@ import com.pkulaw.tec.entity.po.nested.article.AuthorUnitInfoJobs;
 import com.pkulaw.tec.mapper.ArticleMapper;
 import com.pkulaw.tec.mapper.EsMapper;
 import org.apache.lucene.search.join.ScoreMode;
+import org.apache.pdfbox.pdfparser.PDFParser;
 import org.elasticsearch.action.search.SearchResponse;
 import org.elasticsearch.index.query.BoolQueryBuilder;
 import org.elasticsearch.index.query.InnerHitBuilder;
@@ -30,6 +31,11 @@ import org.springframework.data.elasticsearch.core.ResultsExtractor;
 import org.springframework.data.elasticsearch.core.query.NativeSearchQueryBuilder;
 import org.springframework.data.elasticsearch.core.query.SearchQuery;
 
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.util.*;
 
 import static org.elasticsearch.index.query.QueryBuilders.boolQuery;
@@ -121,28 +127,30 @@ class TestEsApplicationTests {
     @Test
     void saveArticle() {
         ArticleBean first = new ArticleBean();
-        first.setId(10101011l);
+        first.setId(10101014l);
         List<AuthorAndUnitInfo> list1 = new ArrayList<>();
         AuthorAndUnitInfo info1 = new AuthorAndUnitInfo();
         info1.setAuthorId("2001");
         AuthorUnitInfoJobs unit1 = new AuthorUnitInfoJobs();
-        unit1.setAuthorUnitId("001001");
+        unit1.setAuthorUnitId("001002");
         info1.setAuthorUnits(Arrays.asList(unit1));
         list1.add(info1);
         first.setAuthorAndUnitInfo(list1);
 
         ArticleBean second = new ArticleBean();
-        second.setId(10111021l);
+        second.setId(10111024l);
         List<AuthorAndUnitInfo> list2 = new ArrayList<>();
         AuthorAndUnitInfo info11 = new AuthorAndUnitInfo();
         info11.setAuthorId("2001");
         AuthorUnitInfoJobs unit2 = new AuthorUnitInfoJobs();
-        unit2.setAuthorUnitId("001002");
-        info11.setAuthorUnits(Arrays.asList(unit2));
+        unit2.setAuthorUnitId("001001");
+        AuthorUnitInfoJobs unit21 = new AuthorUnitInfoJobs();
+        unit21.setAuthorUnitId("001003");
+        info11.setAuthorUnits(Arrays.asList(unit2,unit21));
         AuthorAndUnitInfo info22 = new AuthorAndUnitInfo();
-        info22.setAuthorId("2001");
+        info22.setAuthorId("2002");
         AuthorUnitInfoJobs unit3 = new AuthorUnitInfoJobs();
-        unit3.setAuthorUnitId("001003");
+        unit3.setAuthorUnitId("001001");
         info22.setAuthorUnits(Arrays.asList(unit3));
         AuthorAndUnitInfo info33 = new AuthorAndUnitInfo();
         info33.setAuthorId("2005");
@@ -155,7 +163,7 @@ class TestEsApplicationTests {
         second.setAuthorAndUnitInfo(list2);
 
         ArticleBean third = new ArticleBean();
-        third.setId(10112031l);
+        third.setId(10112034l);
         List<AuthorAndUnitInfo> list3 = new ArrayList<>();
         AuthorAndUnitInfo info111 = new AuthorAndUnitInfo();
         info111.setAuthorId("2005");
@@ -204,12 +212,14 @@ class TestEsApplicationTests {
         //查询条件设置
         NativeSearchQueryBuilder nativeSearchQueryBuilder = new NativeSearchQueryBuilder();
         InnerHitBuilder innerHitBuilder = new InnerHitBuilder();
-        innerHitBuilder.setSize(10);
+        innerHitBuilder.setSize(100);
         BoolQueryBuilder boolQueryBuilder = boolQuery();
-        BoolQueryBuilder boolQueryBuilder2 = boolQuery();
-        boolQueryBuilder2.should(QueryBuilders.termQuery("operateRecord.reason", "001006"));
-        boolQueryBuilder2.should(QueryBuilders.termQuery("operateRecord.detailReason", "曹伟录入了错的数据！"));
 
+        BoolQueryBuilder boolQueryBuilder2 = boolQuery();
+        boolQueryBuilder2.should(QueryBuilders.termQuery("operateRecord.reason", "0010010"));
+        boolQueryBuilder2.should(QueryBuilders.termQuery("operateRecord.detailReason", "曹伟录入了错的数据！"));
+//        boolQueryBuilder2.should(QueryBuilders.boolQuery().must(QueryBuilders.termQuery("operateRecord.reason", "001001")));
+//        boolQueryBuilder2.minimumShouldMatch(1);
         boolQueryBuilder.must(QueryBuilders.nestedQuery("operateRecord",
                 boolQueryBuilder2, ScoreMode.None).innerHit(innerHitBuilder));
         //检索信息
@@ -222,6 +232,7 @@ class TestEsApplicationTests {
             SearchHits hits = searchResponse.getHits();
             List<Map<String,Object>> list = new ArrayList<>();
             for(SearchHit hit: hits.getHits()){
+                Map hit1 =  hit.getSourceAsMap();
                 Map<String, SearchHits> innerHits = hit.getInnerHits();
                 Iterator<SearchHit> operateRecord = innerHits.get("operateRecord").iterator();
                 while(operateRecord.hasNext()){
@@ -230,6 +241,21 @@ class TestEsApplicationTests {
             }
             return list;
         });
+    }
+    @Test
+    public void test3() throws IOException {
 
+        URL url = new URL("http://192.168.60.136:8080/group1/default/20210208/10/43/1/刘海_发票1121.pdf");
+        HttpURLConnection conn = (HttpURLConnection)url.openConnection();
+        //设置超时间为10秒
+        conn.setConnectTimeout(10000);
+        //防止屏蔽程序抓取而返回403错误
+        conn.setRequestProperty("User-Agent", "Mozilla/4.0 (compatible; MSIE 5.0; Windows NT; DigExt)");
+        //得到输入流
+        InputStream inputStream = conn.getInputStream();
+        PDFParser p = new PDFParser(inputStream);
+        p.parse();
+        int numberOfPages = p.getPDDocument().getNumberOfPages();
+        inputStream.close();
     }
 }
