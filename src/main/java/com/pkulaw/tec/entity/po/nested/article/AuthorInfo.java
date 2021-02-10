@@ -9,6 +9,7 @@ import org.springframework.data.elasticsearch.annotations.MultiField;
 import java.util.List;
 
 /**
+ * 带是否是外国作者的标记字段的作者实体
  * Created by liuhai on 2020/12/28 13:20
  */
 @Data

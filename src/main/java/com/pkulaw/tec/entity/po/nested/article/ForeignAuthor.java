@@ -7,6 +7,7 @@ import org.springframework.data.elasticsearch.annotations.InnerField;
 import org.springframework.data.elasticsearch.annotations.MultiField;
 
 /**
+ * 外国作者实体
  * Created by liuhai on 2020/12/30 9:06
  */
 @Data

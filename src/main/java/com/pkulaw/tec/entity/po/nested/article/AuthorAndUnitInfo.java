@@ -9,6 +9,7 @@ import org.springframework.data.elasticsearch.annotations.MultiField;
 import java.util.List;
 
 /**
+ * 完整的作者与单位信息
  * Created by liuhai on 2020/12/28 13:21
  */
 @Data
@@ -25,6 +26,6 @@ public class AuthorAndUnitInfo {
     private Boolean bForeignAuthor;
     //单位信息
     @Field(type = FieldType.Nested)
-    List<AuthorUnitInfoJobs> authorUnits;
+    List<AuthorUnitInfoJob> authorUnits;
 
 }

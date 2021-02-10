@@ -9,6 +9,7 @@ import org.springframework.data.elasticsearch.annotations.FieldType;
 import java.util.Date;
 
 /**
+ * 操作记录
  * Created by liuhai on 2020/12/28 13:22
  */
 @Data

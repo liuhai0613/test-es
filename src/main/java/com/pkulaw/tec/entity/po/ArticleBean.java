@@ -4,7 +4,6 @@ import com.pkulaw.tec.entity.po.nested.article.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.checkerframework.checker.formatter.qual.Format;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.elasticsearch.annotations.*;
 
@@ -15,7 +14,7 @@ import java.util.List;
  * Created by liuhai on 2020/12/28 8:53
  */
 //有@Setting 会导致@Document失效
-@Document(indexName = "houyi_qikan_article_dev2",shards = 3,replicas = 2, type="info")
+@Document(indexName = "houyi_qikan_article_dev3",shards = 3,replicas = 2, type="info")
 @AllArgsConstructor
 @NoArgsConstructor
 @Setting(settingPath = "elasticsearch-settings.json")

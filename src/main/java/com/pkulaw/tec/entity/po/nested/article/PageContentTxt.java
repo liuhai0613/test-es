@@ -5,6 +5,7 @@ import org.springframework.data.elasticsearch.annotations.Field;
 import org.springframework.data.elasticsearch.annotations.FieldType;
 
 /**
+ * 文章正文分页实体
  * Created by liuhai on 2021/1/26 18:08
  */
 @Data
