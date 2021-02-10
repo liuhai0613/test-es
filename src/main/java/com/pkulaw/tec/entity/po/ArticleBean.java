@@ -260,10 +260,9 @@ public class ArticleBean {
             otherFields = @InnerField(suffix = "keyword", type = FieldType.Keyword))
     private String journalName;
     //-------------------------------------------作者相关--------------------------------------------->
-    //上传的作者和单位名称信息（上传的名称描述信息,某某单位某某职称某某人多个用逗号隔开）
-    @MultiField(mainField = @Field(type = FieldType.Text,analyzer = "ik_max_word"),
-            otherFields = @InnerField(suffix = "keyword", type = FieldType.Keyword))
-    private List<String> uploadAuthorUnitName;
+    //上传的作者和单位名称信息（json）
+    @Field(type = FieldType.Nested)
+    private AuthorInfos AuthorInfos;
     //作者和单位关系是否建立 0未建立1已建立
     @Field(type = FieldType.Integer)
     private Integer buildRelation;
