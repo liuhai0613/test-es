@@ -34,7 +34,7 @@ public class ArticleBean {
     private String JournalId;
     //文章类型
     @Field(type = FieldType.Keyword)
-    private String NameType;
+    private String Name_Type;
     //期刊年份
     @Field(type = FieldType.Keyword)
     private String JournalYear;
@@ -167,7 +167,7 @@ public class ArticleBean {
     private String JournalAllIssue;
     //就是gid，主键加掩码算的
     @Field(type = FieldType.Keyword)
-    private String CGid;
+    private String Gid;
     //关键词
     @Field(type = FieldType.Keyword)
     private String Keyword;
